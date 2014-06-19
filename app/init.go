@@ -1,6 +1,11 @@
 package app
 
 import "github.com/revel/revel"
+import "github.com/jinzhu/gorm"
+import _ "github.com/lib/pq"
+import "fmt"
+
+var DB gorm.DB
 
 func init() {
 	// Filters is the default set of global filters.
@@ -21,8 +26,23 @@ func init() {
 
 	// register startup functions with OnAppStart
 	// ( order dependent )
-	// revel.OnAppStart(InitDB())
+	revel.OnAppStart(InitDB)
 	// revel.OnAppStart(FillCache())
+}
+
+func InitDB() {
+	var err error
+
+  DB, err := gorm.Open("postgres", "dbname=blog_dev sslmode=disable")
+
+  if err != nil {
+    panic(fmt.Sprintf("Got error when connect database, the error is '%v'", err))
+  }
+
+  // defaults
+  DB.DB().SetMaxIdleConns(10)
+  DB.DB().SetMaxOpenConns(100)
+  DB.DB().Ping()
 }
 
 // TODO turn this into revel.HeaderFilter
