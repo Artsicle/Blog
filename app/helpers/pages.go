@@ -7,7 +7,12 @@ import (
 
 type Helper struct{}
 
-func (h Helper) LinkTo(name, url string) template.HTML {
-	var content string = fmt.Sprintf("<a href='%s'>%s</a>", url, name)
+type Linker interface {
+	LinkTitle() string
+	Url() string
+}
+
+func (h Helper) LinkTo(a Linker) template.HTML {
+	content := fmt.Sprintf("<a href='%s'>%s</a>", a.Url(), a.LinkTitle())
 	return template.HTML(content)
 }
