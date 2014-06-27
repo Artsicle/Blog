@@ -1,0 +1,35 @@
+{{set . "title" "Sign Up"}}
+{{set . "bodyclass" "register"}}
+{{template "header.html" .}}
+
+<h1>Sign Up</h1>
+
+<form action="{{url "App.CreateUser"}}" method="POST">
+  {{with $field := field "user.FirstName" .}}
+    <p class="{{$field.ErrorClass}}">
+      <strong>First Name:</strong>
+      <input type="text" name="{{$field.Name}}" size="16" value="{{$field.Flash}}"> *
+      <span class="error">{{$field.Error}}</span>
+    </p>
+  {{end}}
+  {{with $field := field "user.LastName" .}}
+    <p class="{{$field.ErrorClass}}">
+      <strong>Last Name:</strong>
+      <input type="text" name="{{$field.Name}}" size="16" value="{{$field.Flash}}"> *
+      <span class="error">{{$field.Error}}</span>
+    </p>
+  {{end}}
+  {{with $field := field "user.Email" .}}
+    <p class="{{$field.ErrorClass}}">
+      <strong>Email:</strong>
+      <input type="text" name="{{$field.Name}}" size="16" value="{{$field.Flash}}"> *
+      <span class="error">{{$field.Error}}</span>
+    </p>
+  {{end}}
+  <p>
+    <input type="submit" value="Register">
+    <a href="{{url "App.Index"}}">Cancel</a>
+  </p>
+</form>
+
+{{template "footer.html" .}}

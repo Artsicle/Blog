@@ -2,5 +2,9 @@
   .hero-unit {
     color: white;
     background-color: #85144B;
+    a {
+      display: block;
+      margin: 2px 0;
+    }
   }
 }
