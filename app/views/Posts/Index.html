@@ -1,0 +1,9 @@
+{{set . "title" "Posts"}}
+{{set . "bodyclass" "posts-index"}}
+{{template "header.html" .}}
+
+<h1>Welcome!</h1>
+
+<h2>{{.user.FirstName}} {{.user.LastName}}: {{.user.Email}}</h2>
+
+{{template "footer.html" .}}

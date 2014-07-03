@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	. "blog/app/db"
-	"blog/app/helpers"
 	"blog/app/models"
 	"blog/app/routes"
 	"fmt"
@@ -10,29 +8,13 @@ import (
 )
 
 type App struct {
-	*revel.Controller
-}
-
-func (c App) AddUser() revel.Result {
-	if user := c.connected(); user != nil {
-		c.RenderArgs["user"] = user
-	}
-	return nil
-}
-
-func (c App) connected() *models.User {
-	if c.RenderArgs["user"] != nil {
-		return c.RenderArgs["user"].(*models.User)
-	}
-	return nil
+	Common
 }
 
 func (c App) Index() revel.Result {
-	var ulink, plink helpers.Linker
+	var ulink models.Linker
 	ulink = &models.User{}
-	plink = &models.Post{}
-	h := &helpers.Helper{}
-	return c.Render(h, ulink, plink)
+	return c.Render(ulink)
 }
 
 func (c App) Register() revel.Result {
@@ -40,14 +22,14 @@ func (c App) Register() revel.Result {
 }
 
 func (c App) CreateUser(user models.User) revel.Result {
-	if err := DB.Save(&user).Error; err != nil {
-		fmt.Println(err)
+	ok, err := models.CreateRecord(&user)
+	if !ok {
+		c.Flash.Error(err.Error())
+		return c.Redirect(routes.App.Register())
 	} else {
-		fmt.Println("User created")
+		c.Flash.Success(fmt.Sprintf("Welcome, %v %v",
+			user.FirstName, user.LastName))
+		c.Session["user"] = user.Email
+		return c.Redirect(routes.Posts.Index())
 	}
-
-	c.Flash.Success(fmt.Sprintf("Welcome, %v %v",
-		user.FirstName, user.LastName))
-
-	return c.Redirect(routes.App.Index())
 }
