@@ -2,8 +2,36 @@
 {{set . "bodyclass" "posts-index"}}
 {{template "header.html" .}}
 
-<h1>Welcome!</h1>
+<div class="row">
+  <div class="col-sm-offset-2 col-sm-8">
+    <h1>Welcome!</h1>
 
-<h2>{{.user.FirstName}} {{.user.LastName}}: {{.user.Email}}</h2>
+    <h3>{{.user.FirstName}} {{.user.LastName}}: {{.user.Email}}</h3>
+
+    <div class="row">
+      <div class="col-sm-4">
+	<h2>Posts</h2>
+      </div>
+      <div class="col-sm-8">
+	<a href="{{url "Posts.New"}}" class="pull-right btn btn-success">New Post</a>
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      {{if .posts}}
+        <ul>
+	  {{range .posts}}
+	    <li>
+	      <em>{{.Published}}</em>
+	      <a href="{{url "Posts.Show" .Id}}">{{.Title}}</a>
+	    </li>
+	  {{end}}
+	</ul>
+      {{else}}
+        <p>You don't have posts!</p>
+      {{end}}
+    </div>
+  </div>
+</div>
 
 {{template "footer.html" .}}

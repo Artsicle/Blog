@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"blog/app/models"
-	"fmt"
 	"github.com/revel/revel"
 )
 
@@ -24,12 +23,12 @@ func (c Common) connected() *models.User {
 	if email, ok := c.Session["user"]; ok {
 		attrs := map[string]interface{}{"email": email}
 		user := &models.User{}
-		ok, err := models.FindByMap(attrs, user)
-		if !ok {
-			fmt.Printf("Error: %s", err.Error())
-		} else {
-			return user
+
+		if err := models.FindByMap(attrs, user, true); err != nil {
+			return nil
 		}
+		return user
+
 	}
 	return nil
 }

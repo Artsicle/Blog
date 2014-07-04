@@ -21,34 +21,41 @@ func AutoMigrate() {
 	}
 }
 
-func CreateRecord(i interface{}) (bool, error) {
+func CreateRecord(i interface{}) error {
 	if err := DB.Save(i).Error; err != nil {
-		return false, err
-	} else {
-		return true, nil
+		return err
 	}
+	return nil
 }
 
-func UpdateRecord(i interface{}) (bool, error) {
+func UpdateRecord(i interface{}) error {
 	if err := DB.Updates(i).Error; err != nil {
-		return false, err
-	} else {
-		return true, nil
+		return err
 	}
+	return nil
 }
 
-func DeleteRecord(i interface{}) (bool, error) {
+func DeleteRecord(i interface{}) error {
 	if err := DB.Delete(i).Error; err != nil {
-		return false, err
-	} else {
-		return true, nil
+		return err
 	}
+	return nil
 }
 
-func FindByMap(m map[string]interface{}, i interface{}) (bool, error) {
-	if err := DB.Where(m).Find(i).Error; err != nil {
-		return false, err
-	} else {
-		return true, nil
+// boolean nf is true if we want to report RecordNotFound errors
+func FindByMap(m map[string]interface{}, i interface{}, nf bool) error {
+	err := DB.Where(m).Find(i).Error
+	if err != nil && (nf || err != RecordNotFound) {
+		return err
 	}
+	return nil
+}
+
+// boolean nf is true if we want to report RecordNotFound errors
+func FindAll(i interface{}, nf bool) error {
+	err := DB.Find(i).Error
+	if err != nil && (nf || err != RecordNotFound) {
+		return err
+	}
+	return nil
 }
