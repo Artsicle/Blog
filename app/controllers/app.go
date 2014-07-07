@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	. "blog/app/db"
-	"blog/app/helpers"
 	"blog/app/models"
 	"blog/app/routes"
 	"fmt"
@@ -10,44 +8,46 @@ import (
 )
 
 type App struct {
-	*revel.Controller
-}
-
-func (c App) AddUser() revel.Result {
-	if user := c.connected(); user != nil {
-		c.RenderArgs["user"] = user
-	}
-	return nil
-}
-
-func (c App) connected() *models.User {
-	if c.RenderArgs["user"] != nil {
-		return c.RenderArgs["user"].(*models.User)
-	}
-	return nil
+	Common
 }
 
 func (c App) Index() revel.Result {
-	var ulink, plink helpers.Linker
-	ulink = &models.User{}
-	plink = &models.Post{}
-	h := &helpers.Helper{}
-	return c.Render(h, ulink, plink)
+	posts := &[]models.Post{}
+	if err := models.FindAll(posts, false); err != nil {
+		c.Flash.Error(err.Error())
+		return c.Render()
+	}
+	return c.Render(posts)
 }
 
 func (c App) Register() revel.Result {
 	return c.Render()
 }
 
-func (c App) CreateUser(user models.User) revel.Result {
-	if err := DB.Save(&user).Error; err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println("User created")
-	}
+func (c App) SignIn() revel.Result {
+	return c.Render()
+}
 
+func (c App) FindUser(email string) revel.Result {
+	var user models.User
+	attrs := map[string]interface{}{"email": email}
+
+	if err := models.FindByMap(attrs, &user, true); err != nil {
+		c.Flash.Error(err.Error())
+		return c.Redirect(routes.App.SignIn())
+	}
+	c.Session["user"] = email
+	return c.Redirect(routes.Posts.Index())
+}
+
+func (c App) CreateUser(user models.User) revel.Result {
+
+	if err := models.CreateRecord(&user); err != nil {
+		c.Flash.Error(err.Error())
+		return c.Redirect(routes.App.Register())
+	}
 	c.Flash.Success(fmt.Sprintf("Welcome, %v %v",
 		user.FirstName, user.LastName))
-
-	return c.Redirect(routes.App.Index())
+	c.Session["user"] = user.Email
+	return c.Redirect(routes.Posts.Index())
 }

@@ -1,0 +1,19 @@
+{{set . "title" "Post"}}
+{{set . "bodyclass" "posts-show"}}
+{{template "header.html" .}}
+
+<div class="row">
+  <div class="col-sm-offset-2 col-sm-8">
+    <a href="{{url "Posts.Index"}}">Back to Posts Index</a>
+    <h1>
+      {{.post.Title}}
+      <small>{{.post.Published}}</small>
+    </h1>
+  
+    <p>
+      {{.post.Body}}
+    </p>
+  </div>
+</div>
+
+{{template "footer.html" .}}

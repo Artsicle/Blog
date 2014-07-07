@@ -1,0 +1,43 @@
+{{set . "title" "Posts"}}
+{{set . "bodyclass" "posts-new"}}
+{{template "header.html" .}}
+
+<div class="row">
+  <div class="col-sm-offset-3 col-sm-6">
+    <h1>New Post</h1>
+    
+    <form action="{{url "Posts.CreatePost"}}" method="POST" class="form-horizontal">
+      <input type="hidden" name="post.UserId" value="{{.user.Id}}">
+
+      {{with $field := field "post.Title" .}}
+      <div class="form-group {{$field.ErrorClass}}">
+	<label for="{{$field.Name}}" class="control-label col-sm-2">
+	  Title:
+	</label>
+	<div class="col-sm-10">
+	  <input class="form-control" type="text" name="{{$field.Name}}" size="16" value="{{$field.Flash}}">
+	</div>
+      </div>
+      {{end}}
+      
+      {{with $field := field "post.Body" .}}
+      <div class="form-group {{$field.ErrorClass}}">
+	<label for="{{$field.Name}}" class="control-label col-sm-2">
+	  Body:
+	</label>
+	<div class="col-sm-10">
+	  <textarea cols="80" rows="20" name="{{$field.Name}}">
+	    {{$field.Flash}}
+	  </textarea>
+	</div>
+      </div>
+      {{end}}
+
+      <p>
+	<input type="submit" value="Create Post" class="btn btn-primary">
+	<a href="{{url "Posts.Index"}}" class="btn btn-default">Cancel</a>
+      </p>
+    </form>
+  </div>
+</div>
+{{template "footer.html"}}

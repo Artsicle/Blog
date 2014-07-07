@@ -8,6 +8,11 @@ GET     /                                       App.Index
 GET 	/register				App.Register
 POST	/register				App.CreateUser
 
+GET	/posts					Posts.Index
+GET	/posts/new				Posts.New
+POST	/posts					Posts.CreatePost
+GET 	/posts/:id				Posts.Show
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 

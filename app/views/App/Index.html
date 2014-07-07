@@ -12,7 +12,7 @@
       <div class="pull-right">
 	<a href="{{url "App.Register"}}" class="btn btn-default">Sign Up</a>
 	<br/>
-	<a href="#" class="btn btn-default">Sign In</a>
+	<a href="{{url "App.SignIn"}}" class="btn btn-default">Sign In</a>
       </div>
     </div>
   </div>
@@ -23,6 +23,23 @@
     <div class="span6">
       {{template "flash.html" .}}
     </div>
+  </div>
+
+  <div class="row">
+    <h2>All Posts</h2>
+    {{if .posts}}
+      <ul>
+	{{range .posts}}
+          <li>
+	    <em>{{.Published}}</em>
+	    <a href="{{url "Posts.Show" .Id}}">{{.Title}}</a>
+	    - by {{.AuthorName}}
+	  </li>
+	{{end}}
+      </ul>
+    {{else}}
+      <p> No Posts Yet </p>
+    {{end}}
   </div>
 </div>
 

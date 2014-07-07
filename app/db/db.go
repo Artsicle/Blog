@@ -6,7 +6,10 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var DB gorm.DB
+var (
+	DB             gorm.DB
+	RecordNotFound = gorm.RecordNotFound
+)
 
 func init() {
 	var err error
