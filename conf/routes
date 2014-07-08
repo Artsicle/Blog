@@ -4,9 +4,15 @@
 
 module:testrunner
 
-GET     /                                       App.Index
-GET 	/register				App.Register
-POST	/register				App.CreateUser
+GET     /                                       Pages.Index
+GET	/about					Pages.About
+GET	/team					Pages.Team
+
+GET 	/register				Sessions.Register
+POST	/register				Sessions.CreateUser
+GET	/signin					Sessions.SignIn
+POST	/signin					Sessions.FindUser
+
 
 GET	/posts					Posts.Index
 GET	/posts/new				Posts.New
@@ -19,5 +25,3 @@ GET     /favicon.ico                            404
 # Map static resources from the /app/public folder to the /public path
 GET     /public/*filepath                       Static.Serve("public")
 
-# Catch all
-*       /:controller/:action                    :controller.:action

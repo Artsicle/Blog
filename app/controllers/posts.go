@@ -13,7 +13,7 @@ type Posts struct {
 func (p Posts) checkUser() revel.Result {
 	if user := p.connected(); user == nil {
 		p.Flash.Error("Please log in first")
-		return p.Redirect(routes.App.Index())
+		return p.Redirect(routes.Pages.Index())
 	}
 	return nil
 }
@@ -24,7 +24,7 @@ func (p Posts) Index() revel.Result {
 	posts := &[]models.Post{}
 	if err := models.FindByMap(query, posts, false); err != nil {
 		p.Flash.Error(err.Error())
-		return p.Redirect(routes.App.Index())
+		return p.Redirect(routes.Pages.Index())
 	}
 	return p.Render(posts)
 }

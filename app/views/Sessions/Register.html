@@ -6,7 +6,7 @@
   <div class="col-sm-offset-4 col-sm-4">
     <h1>Sign Up</h1>
 
-    <form action="{{url "App.CreateUser"}}" method="POST" class="form-horizontal">
+    <form action="{{url "Sessions.CreateUser"}}" method="POST" class="form-horizontal">
       {{with $field := field "user.FirstName" .}}
         <div class="form-group {{$field.ErrorClass}}">
 	  <label for="{{$field.Name}}" class="control-label col-sm-3">
@@ -42,7 +42,7 @@
       {{end}}
       <p>
 	<input type="submit" value="Register" class="btn btn-primary">
-	<a href="{{url "App.Index"}}" class="btn btn-default">Cancel</a>
+	<a href="{{url "Pages.Index"}}" class="btn btn-default">Cancel</a>
       </p>
     </form>
   </div>
