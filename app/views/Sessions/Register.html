@@ -40,6 +40,28 @@
 	  <span class="error">{{$field.Error}}</span>
 	</div>
       {{end}}
+      {{with $field := field "password" .}}
+	<div class="form-group {{$field.ErrorClass}}">
+	  <label class="control-label col-sm-3">
+	    Password:
+	  </label>
+	  <div class="col-sm-9">
+	    <input class="form-control" type="password" name="{{$field.Name}}" size="16" value="{{$field.Flash}}"> *
+	  </div>
+	  <span class="error">{{$field.Error}}</span>
+	</div>
+      {{end}}
+      {{with $field := field "passwordConfirmation" .}}
+	<div class="form-group {{$field.ErrorClass}}">
+	  <label class="control-label col-sm-3">
+	    Password Confirmation:
+	  </label>
+	  <div class="col-sm-9">
+	    <input class="form-control" type="password" name="{{$field.Name}}" size="16" value="{{$field.Flash}}"> *
+	  </div>
+	  <span class="error">{{$field.Error}}</span>
+	</div>
+      {{end}}
       <p>
 	<input type="submit" value="Register" class="btn btn-primary">
 	<a href="{{url "Pages.Index"}}" class="btn btn-default">Cancel</a>

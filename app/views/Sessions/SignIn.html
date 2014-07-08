@@ -1,4 +1,4 @@
-{{set . "title" "Sign Up"}}
+{{set . "title" "Sign In"}}
 {{set . "bodyclass" "register"}}
 {{template "header.html" .}}
 
@@ -14,6 +14,17 @@
 	  </label>
 	  <div class="col-sm-9">
 	    <input class="form-control" type="text" name="{{$field.Name}}" size="16" value="{{$field.Flash}}">
+	  </div>
+	  <span class="error">{{$field.Error}}</span>
+	</div>
+      {{end}}
+      {{with $field := field "password" .}}
+        <div class="form-group {{$field.ErrorClass}}">
+	  <label for="{{$field.Name}}" class="control-label col-sm-3">
+	    Password:
+	  </label>
+	  <div class="col-sm-9">
+	    <input class="form-control" type="password" name="{{$field.Name}}" size="16" value="{{$field.Flash}}">
 	  </div>
 	  <span class="error">{{$field.Error}}</span>
 	</div>
